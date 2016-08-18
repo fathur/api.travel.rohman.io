@@ -1,5 +1,8 @@
 <?php
 
+use LaravelDoctrine\Migrations\MigrationsServiceProvider;
+use LaravelDoctrine\ORM\DoctrineServiceProvider;
+
 require_once __DIR__.'/../vendor/autoload.php';
 
 try {
@@ -23,9 +26,13 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
-// $app->withFacades();
+$app->withFacades();
 
-// $app->withEloquent();
+class_alias('LaravelDoctrine\ORM\Facades\EntityManager', 'EntityManager');
+class_alias('LaravelDoctrine\ORM\Facades\Registry', 'Registry');
+class_alias('LaravelDoctrine\ORM\Facades\Doctrine', 'Doctrine');
+
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -78,9 +85,13 @@ $app->singleton(
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\EventServiceProvider::class);
+
+// Third party
+$app->register(DoctrineServiceProvider::class);
+$app->register(MigrationsServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -94,7 +105,10 @@ $app->singleton(
 */
 
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
-    require __DIR__.'/../app/Http/routes.php';
+    // require __DIR__.'/../app/Http/routes.php';
+
+    require __DIR__.'/../app/Http/Routes/authentication.php';
+    require __DIR__.'/../app/Http/Routes/timeline.php';
 });
 
 return $app;
