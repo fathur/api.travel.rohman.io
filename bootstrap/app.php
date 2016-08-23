@@ -31,6 +31,9 @@ $app->withFacades();
 class_alias('LaravelDoctrine\ORM\Facades\EntityManager', 'EntityManager');
 class_alias('LaravelDoctrine\ORM\Facades\Registry', 'Registry');
 class_alias('LaravelDoctrine\ORM\Facades\Doctrine', 'Doctrine');
+class_alias('Tymon\JWTAuth\Facades\JWTAuth', 'JWTAuth');
+class_alias('Tymon\JWTAuth\Facades\JWTFactory', 'JWTFactory');
+class_alias(Intervention\Image\Facades\Image::class, 'Image');
 
 $app->withEloquent();
 
@@ -92,6 +95,8 @@ $app->register(App\Providers\EventServiceProvider::class);
 // Third party
 $app->register(DoctrineServiceProvider::class);
 $app->register(MigrationsServiceProvider::class);
+$app->register(Intervention\Image\ImageServiceProvider::class);
+$app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
